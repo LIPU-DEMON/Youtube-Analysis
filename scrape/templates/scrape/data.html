@@ -1,0 +1,17 @@
+{% extends 'scrape/main.html' %} 
+{% block content %} 
+{% if message %}
+{% for message in messages%}
+<p class="alert alert-{{message.tags}}">{{message}}</p>
+{%endfor%}
+{% endif %}
+<br />
+<div class="container mt-4">
+  <h1>Scraped Data</h1>
+  <div class="container mt-4">{{ tohtml|safe }}</div>
+  <form method="POST" action="{% url 'scrape:sts' %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-outline-success">Push Request</button>
+  </form>
+</div>
+{% endblock %}

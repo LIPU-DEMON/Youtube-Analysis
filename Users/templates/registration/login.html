@@ -1,0 +1,54 @@
+{% extends "registration/firstpage.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<script>
+  window.addEventListener("load", function () {
+    var modalElement = document.getElementById("loginModal");
+    var modal = new bootstrap.Modal(document.getElementById("loginModal"));
+    modal.show();
+
+    modalElement.addEventListener("hidden.bs.modal", function () {
+      window.location.href = "{% url 'users:first' %}";
+    });
+  });
+</script>
+<div
+  class="modal fade"
+  id="loginModal"
+  tabindex="-1"
+  aria-labelledby="loginModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      {% for message in messages %}
+      <div class="alert alert-{{message.tags}}">
+        <p>{{message}}</p>
+      </div>
+      {% endfor %}
+      <br />
+      <div class="card text-center">
+        <div class="card-header">Login Form</div>
+        <div class="card-body">
+          {% if form.errors %}
+          <p style="color: red">Invalid Username or Password</p>
+          {% endif %}
+          <form action="{% url 'users:login' %}" method="post">
+            {% csrf_token %} {{ form|crispy }}
+            <button type="submit">Login</button>
+          </form>
+
+          <p>
+            Dont have an Account?
+            <a href="{% url 'users:Register' %}">Register</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+<!-- Optional JavaScript; choose one of the two! -->
+
+<!-- Option 1: Bootstrap Bundle with Popper -->

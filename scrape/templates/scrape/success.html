@@ -1,0 +1,17 @@
+{% extends "scrape/main.html" %} {% block content%}
+<form type="POST" action="{% url 'DB:dashboard' %}">
+  <button type="submit" class="btn btn-outline-info">DashBoard</button>
+  <br />
+</form>
+<form action="{% url 'scrape:home' %}">
+  {% csrf_token %}
+  <button
+    onclick="window.location.href='{% url 'scrape:home' %}'"
+    type="submit"
+    class="btn btn-outline-info"
+  >
+    Home Page
+  </button>
+</form>
+
+{% endblock %}

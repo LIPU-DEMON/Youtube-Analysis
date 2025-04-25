@@ -1,0 +1,24 @@
+{% extends "scrape/main.html" %} {% block content %}
+<div class="px-2">
+  <hr />
+  <form method="POST" action="">
+    {% csrf_token %}
+    <div class="input-group input-group-lg w-50">
+      <input
+        {% comment %} onclick = "window.location.href='{% url 'scrape:home' %}'" {% endcomment %}
+        name="links"
+        type="text"
+        class="form-control"
+        placeholder="youtube Video link"
+        aria-label="Recipient's username"
+        aria-describedby="basic-addon2"
+        required
+      />
+      <span class="input-group-text" id="basic-addon2">Paste your link</span>
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+   
+
+{% endblock %}

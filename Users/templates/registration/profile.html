@@ -1,0 +1,61 @@
+{% extends "scrape/main.html" %}
+
+
+
+
+{% block content %}
+<br>
+{% if show %}
+<script>
+  window.addEventListener("load", function () {
+    var modalElement = document.getElementById("profileModal");
+    var modal = new bootstrap.Modal(document.getElementById('profileModal'));
+    modal.show();
+
+    modalElement.addEventListener("hidden.bs.modal", function () {
+        window.location.href= "{% url 'scrape:home' %}"
+    });
+  });
+</script>
+{% endif %}
+<div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+      <div class="modal-content">
+      
+        <div class="modal-header">
+          <h5 class="modal-title" id="profileModalLabel">User Profile</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        
+        <div class="modal-body">
+          <center><h2>Welcome {{ details.0.user.username }}</h2></center>
+          <center><form method='post' action="{% url 'DB:dashboard'%}">{% csrf_token %}<button type='submit'><h2>Show Dashboard</h2></button></form></center>
+          <hr class="border border-primary border-3 opacity-75" />
+          <center><h4>History</h4></center>
+          <ul class="list-group">
+            {% for item in details %}
+              <li class="list-group-item">
+                {{ item.links }} <br>
+                <small>{{ item.Time }}</small>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  
+{%endblock%}
+{% comment %} <div data-bs-spy="scroll" data-bs-target="#navbar-example2" data-bs-root-margin="0px 0px -40%" data-bs-smooth-scroll="true" class="scrollspy-example bg-body-tertiary p-3 rounded-2" tabindex="0">
+    <h4 id="scrollspyHeading1">First heading</h4>
+    <p>...</p>
+    <h4 id="scrollspyHeading2">Second heading</h4>
+    <p>...</p>
+    <h4 id="scrollspyHeading3">Third heading</h4>
+    <p>...</p>
+    <h4 id="scrollspyHeading4">Fourth heading</h4>
+    <p>...</p>
+    <h4 id="scrollspyHeading5">Fifth heading</h4>
+    <p>...</p>
+  </div> {% endcomment %}
