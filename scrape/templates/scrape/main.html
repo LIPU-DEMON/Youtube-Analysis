@@ -102,7 +102,7 @@
         <br>
        {% if messages %}
           {% for message in messages %}
-             <div style="text-align: center;margin-left: 29%;margin-right: 29%;" class = 'alert alert-{{message.tags}}'>
+             <div style="text-align: center;margin-left: 29%;margin-right: 29%;color:red;" class = 'alert alert-{{message.tags}}'>
               {{message}}
             </div>
           {%endfor%}
