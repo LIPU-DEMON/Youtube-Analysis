@@ -37,14 +37,14 @@ def store_post(request):
         try:
            push.objects.bulk_create(records)
            messages.success(request,"Successfully Pushed!")
-           return render(request,"scrape/success.html")
+           return render(request,"scrape/home.html")
        
         except Exception as e:
             messages.error(request,f"failed to push! reason - {e} ")
-            return render(request,"scrape/success.html")
+            return render(request,"scrape/home.html")
     else:
         messages.success(request,"no records to push !")
-        return render(request,"scrape/success.html")
+        return render(request,"scrape/home.html")
 
 
 

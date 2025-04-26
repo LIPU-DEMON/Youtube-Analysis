@@ -17,6 +17,7 @@ from .models import store
 from .forms import storeroom
 import json
 from django.utils import timezone
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 #2nd Set your driver
@@ -42,7 +43,7 @@ driver = webdriver.Chrome(service=chrome_service,options=c_op)
 #         }
 #         return render(request,"scrape/home.html",context)
 #     return render(request,"scrape/home.html")
-
+@login_required
 def statistics(request):
     lst = []
     if(request.method=='POST'):
@@ -101,6 +102,7 @@ def statistics(request):
 def data(request):
     return render(request,"scrape/data.html")
 
+@login_required
 def home(request):
     if(request.method=='POST'):
       links = request.POST.get('links')
@@ -209,14 +211,14 @@ def home(request):
                  About = " ".join(About)
          
          al_lst.append([title,likes,views,comments,channel_name,home_channel_link,subscribers,ig,twi,face,About,alternative_link])
-         al_st.append([title,likes,views,comments,subscribers])
+         al_st.append([title,likes,views,comments,subscribers,vid_id])
          YVdf = pd.DataFrame(al_lst,columns=["Title","Likes","Views","Comments","Channel_Name","Home_Channel_link","Subscribers","Insta_link","Twitter_link","Face_link","Long_About","Alternative_links"])
-         YVdfst = pd.DataFrame(al_st,columns=["Title",'Likes','Views','Comments','Subscribers'])
+         YVdfst = pd.DataFrame(al_st,columns=["Title",'Likes','Views','Comments','Subscribers',"video_id"])
          YVdf.replace(["","None","nan","NaN"],np.nan,inplace=True) 
          tohtml = YVdfst.to_html(classes="table table-striped",index=False)
          messages.success(request,f"successfully Scraped! for video {links}! ")
          
-         return render(request,'scrape/data.html',{"tohtml":tohtml})     
+         return render(request,'scrape/data.html',{"tohtml":al_st})     
       else:
          
           messages.error(request," invalid link! ")

@@ -1,17 +1,95 @@
 {% extends 'scrape/main.html' %} 
 {% block content %} 
-{% if message %}
+{% if message %} 
 {% for message in messages%}
-<p class="alert alert-{{message.tags}}">{{message}}</p>
-{%endfor%}
+<p style="text-align: center;margin-left: 29%;
+    margin-right: 29%;" class="alert alert-{{message.tags}}">{{message}}</p>
+{%endfor%} 
 {% endif %}
+
+
+
 <br />
-<div class="container mt-4">
+<div class="card text-center" style="margin-left: 10%;margin-right: 10%;margin-top: -2%;">
+  <div class="card-header" style="background-color: oldlace;">
+    <h1><strong>Scraped Data</strong></h1>
+  </div>
+  <div class="card-body">
+    <table class="table table-info table-striped">
+      <tr>
+        <td><strong>Title</strong></td>
+        <td><strong>Likes</strong></td>
+        <td><strong>Views</strong></td>
+        <td><strong>Comments</strong></td>
+        <td><strong>Subscribers</strong></td>
+      </tr>
+      {% for i in tohtml%}
+      <tr>
+        <td><strong>{{i.0}}</strong></td>
+        <td><strong>{{i.1}}</strong></td>
+        <td><strong>{{i.2}}</strong></td>
+        <td><strong>{{i.3}}</strong></td>
+        <td><strong>{{i.4}}</strong></td>
+        
+      </tr>
+      {% endfor %}
+    </table>
+    
+  </div>
+  <div class="card-footer text-body-secondary">
+    <form method="POST" action="{% url 'scrape:sts' %}">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-outline-success">Push Request</button>
+    </form>
+  </div>
+</div>
+<br>
+<div class="ratio ratio-16x9" style="margin-left: 29%;
+    height: 230pt;
+    width: 42%;">
+  {% for j in tohtml %}
+  <iframe src="https://www.youtube.com/embed/{{j.5}}" title="YouTube video" allowfullscreen></iframe>
+  {% endfor %}
+</div>
+
+
+
+
+
+
+
+
+
+
+
+{% comment %} <div class="container mt-4">
   <h1>Scraped Data</h1>
-  <div class="container mt-4">{{ tohtml|safe }}</div>
+  <div class="container mt-4">
+    <table class="table table-info table-striped">
+      <tr>
+        <td><strong>Title</strong></td>
+        <td><strong>Likes</strong></td>
+        <td><strong>Views</strong></td>
+        <td><strong>Comments</strong></td>
+        <td><strong>Subscribers</strong></td>
+      </tr>
+      {% for i in tohtml%}
+      <tr>
+        <td><strong>{{i.0}}</strong></td>
+        <td><strong>{{i.1}}</strong></td>
+        <td><strong>{{i.2}}</strong></td>
+        <td><strong>{{i.3}}</strong></td>
+        <td><strong>{{i.4}}</strong></td>
+        
+      </tr>
+      {% endfor %}
+    </table>
+    {{ tohtml|safe }}
+  </div>
+
   <form method="POST" action="{% url 'scrape:sts' %}">
     {% csrf_token %}
     <button type="submit" class="btn btn-outline-success">Push Request</button>
   </form>
-</div>
+</div> {% endcomment %}
 {% endblock %}
