@@ -41,6 +41,10 @@
       {% csrf_token %}
       <button type="submit" class="btn btn-outline-success">Push Request</button>
     </form>
+    <form method="POST" action="{% url 'scrape:info' %}">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-outline-success">More Information</button>
+    </form>
   </div>
 </div>
 <br>

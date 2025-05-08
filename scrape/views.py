@@ -112,8 +112,8 @@ def home(request):
           scraped_link.user = request.user
           scraped_link.save()
       
-
-
+ 
+    
       if 'watch?v' in links:
 
          driver.get(str(links))
@@ -210,11 +210,10 @@ def home(request):
                  # alternative_link="".join(alternative_link)
                  About = " ".join(About)
          
-         al_lst.append([title,likes,views,comments,channel_name,home_channel_link,subscribers,ig,twi,face,About,alternative_link])
          al_st.append([title,likes,views,comments,subscribers,vid_id])
-         YVdf = pd.DataFrame(al_lst,columns=["Title","Likes","Views","Comments","Channel_Name","Home_Channel_link","Subscribers","Insta_link","Twitter_link","Face_link","Long_About","Alternative_links"])
          YVdfst = pd.DataFrame(al_st,columns=["Title",'Likes','Views','Comments','Subscribers',"video_id"])
-         YVdf.replace(["","None","nan","NaN"],np.nan,inplace=True) 
+         
+         request.session['MediaLinks'] = [channel_name,ig,twi,face,alternative_link]
          tohtml = YVdfst.to_html(classes="table table-striped",index=False)
          messages.success(request,f"successfully Scraped! for video {links}! ")
          
@@ -229,8 +228,73 @@ def home(request):
         form = storeroom()
 
     return render(request,"scrape/home.html")             
-      
+def MoreInfomation(request):
+    #using API
+    if(request.method == 'POST'):
+        USER = store.objects.filter(user=request.user)
+        link = USER.links
+        vid_id = link.split("=")[-1]
+        channel_id = ""
+        Yt   = build("youtube","v3",developerKey="AIzaSyA6IX_Rvr2CQjNiDJ4aAuEmER6Z0PkDSN4")
+
+        # Video INFO
+        request_link = Yt.videos().list(
+            part = "statistics,snippet",
+            id = vid_id
+
+        )
+        response = request_link.execute()
+        try:
+            if(response):
+                Published_at =response['items'][0]['snippet']['publishedAt']
+                Description = response['items'][0]['snippet']['description']
+                AudioLang = response['items'][0]['snippet']['defaultAudioLanguage']
+                channel_id = response['items'][0]['snippet']['channelId']
+            else:
+                print("request cancelled!")
+        except:
+            print("invalid id")
+
+        #channel INFO
+        request_channel = Yt.channels().list(
+            part = 'snippet,statistics',
+            id = channel_id
+        )
+        response_channel = request_channel.execute()
+        try:
+            channel_Published_at = request_channel['items'][0]['snippet']['publishedAt']
+            Description_channel = request_channel['items'][0]['snippet']['description']
+            channel_name = request_channel['items'][0]['snippet']['title']
+            Thumbnail = request_channel['items'][0]['snippet']['thumbnails']['medium']['url']
+            Country = request_channel['items'][0]['snippet']['country']
             
+
+
+        except:
+            print("invalid channel id")
+
+        #LINKS WILL BE ADDED BELOW
+        
+
+
+        
+
+
+
+
+
+
+
+
+    
+    
+
+
+
+
+
+
+
              
          
              
