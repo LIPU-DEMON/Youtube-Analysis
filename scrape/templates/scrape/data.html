@@ -41,13 +41,14 @@
       {% csrf_token %}
       <button type="submit" class="btn btn-outline-success">Push Request</button>
     </form>
-    <form method="POST" action="{% url 'scrape:info' %}">
+    <form method="POST" action="{% url 'scrape:info' %}" style="float:left;">
       {% csrf_token %}
       <button type="submit" class="btn btn-outline-success">More Information</button>
     </form>
   </div>
 </div>
 <br>
+
 <div class="ratio ratio-16x9" style="margin-left: 29%;
     height: 230pt;
     width: 42%;">

@@ -128,18 +128,45 @@ def home(request):
          yt = build('youtube','v3',developerKey="AIzaSyA6IX_Rvr2CQjNiDJ4aAuEmER6Z0PkDSN4")
          #api request to get videos details
          r = yt.videos().list(
-            part = "statistics",
+            part = "statistics,snippet",
             id = vid_id
          )
          response = r.execute()
          try:
             likes = int(response["items"][0]['statistics']['likeCount'])
             views = int(response["items"][0]['statistics']['viewCount'])
+            Published_at =response['items'][0]['snippet']['publishedAt']
+            Description = response['items'][0]['snippet']['description']
+            AudioLang = response['items'][0]['snippet']['defaultAudioLanguage']
+            video_thumbnail = response['items'][0]['snippet']['thumbnails']['standard']['url']
+            channel_id = response['items'][0]['snippet']['channelId']
+
          except:
             print("invalid id")
          al_lst = []
          al_st = []
+        #  #channel INFO
+        #  request_channel = yt.channels().list(
+        #     part = 'snippet,statistics',
+        #     id = channel_id
+        #  )
+        #  response_channel = request_channel.execute()
+        #  try:
+        #     channel_Published_at = response_channel['items'][0]['snippet']['publishedAt']
+        #     Description_channel = response_channel['items'][0]['snippet']['description']
+        #     Channel_Name = response_channel['items'][0]['snippet']['title']
+        #     Thumbnail = response_channel['items'][0]['snippet']['thumbnails']['medium']['url']
+        #     Country = response_channel['items'][0]['snippet']['country']
+            
+
+
+        #  except:
+        #     print("invalid channel id")
+
+
+
          title, channel_name, home_channel_link = None,None,None
+         #Analysis On Scraping data (its increases time But worth it for Practicing!)
          for div in soup.find_all("ytd-watch-flexy"):
                  title = div.find_all("yt-formatted-string",class_="style-scope ytd-watch-metadata")[0].text
                  channel_name = div.find("a",class_="yt-simple-endpoint style-scope yt-formatted-string").text
@@ -175,21 +202,27 @@ def home(request):
                      try:
                         if "instagram.com" in str(i):
                            ig.append(i)
+                           break
+                        
                      except:
                            ig.append(np.nan)
                  for i in ls:
                      try:
                         if "twitter.com" in str(i):
                             twi.append(i)
+                            break
+                        
                      except:
                             twi.append(np.nan)
 
                  for i in ls:
                      try:
-                          if "facebook.com" in str(i):
-                              face.append(i)
+                        if "facebook.com" in str(i):
+                            face.append(i)
+                            break
+                          
                      except:
-                              face.append(np.nan)
+                            face.append(np.nan)
                  ig = "".join(ig)
                  twi = "".join(twi)
                  face = "".join(face)
@@ -211,11 +244,12 @@ def home(request):
                  About = " ".join(About)
          
          al_st.append([title,likes,views,comments,subscribers,vid_id])
-         YVdfst = pd.DataFrame(al_st,columns=["Title",'Likes','Views','Comments','Subscribers',"video_id"])
+        #  YVdfst = pd.DataFrame(al_st,columns=["Title",'Likes','Views','Comments','Subscribers',"video_id"])
          
          request.session['MediaLinks'] = [channel_name,ig,twi,face,alternative_link]
-         tohtml = YVdfst.to_html(classes="table table-striped",index=False)
+        #  tohtml = YVdfst.to_html(classes="table table-striped",index=False)
          messages.success(request,f"successfully Scraped! for video {links}! ")
+
          
          return render(request,'scrape/data.html',{"tohtml":al_st})     
       else:
@@ -231,7 +265,8 @@ def home(request):
 def MoreInfomation(request):
     #using API
     if(request.method == 'POST'):
-        USER = store.objects.filter(user=request.user)
+        lst = []
+        USER = store.objects.filter(user=request.user).first()
         link = USER.links
         vid_id = link.split("=")[-1]
         channel_id = ""
@@ -249,6 +284,7 @@ def MoreInfomation(request):
                 Published_at =response['items'][0]['snippet']['publishedAt']
                 Description = response['items'][0]['snippet']['description']
                 AudioLang = response['items'][0]['snippet']['defaultAudioLanguage']
+                video_thumbnail = response['items'][0]['snippet']['thumbnails']['standard']['url']
                 channel_id = response['items'][0]['snippet']['channelId']
             else:
                 print("request cancelled!")
@@ -262,11 +298,11 @@ def MoreInfomation(request):
         )
         response_channel = request_channel.execute()
         try:
-            channel_Published_at = request_channel['items'][0]['snippet']['publishedAt']
-            Description_channel = request_channel['items'][0]['snippet']['description']
-            channel_name = request_channel['items'][0]['snippet']['title']
-            Thumbnail = request_channel['items'][0]['snippet']['thumbnails']['medium']['url']
-            Country = request_channel['items'][0]['snippet']['country']
+            channel_Published_at = response_channel['items'][0]['snippet']['publishedAt']
+            Description_channel = response_channel['items'][0]['snippet']['description']
+            channel_name = response_channel['items'][0]['snippet']['title']
+            Thumbnail = response_channel['items'][0]['snippet']['thumbnails']['medium']['url']
+            Country = response_channel['items'][0]['snippet']['country']
             
 
 
@@ -274,6 +310,42 @@ def MoreInfomation(request):
             print("invalid channel id")
 
         #LINKS WILL BE ADDED BELOW
+        medialinks = request.session.get("MediaLinks",None)
+        try:
+            if(medialinks[1]==None or medialinks[1]==""):
+                medialinks[1] = "Not Provided"
+            if(medialinks[2]==None or medialinks[2]==""):
+                medialinks[2] = "Not Provided"
+            if(medialinks[3]==None or medialinks[3]==""):
+                medialinks[3] = "Not Provided"
+            if(medialinks[4]==None or medialinks[4]==""):
+                medialinks[4] = "Not Provided"
+        except:
+            print("No MediaLinks Found!")
+
+
+
+        context = {
+            "published_at":Published_at,
+            "description":Description,
+            "audiolang":AudioLang,
+            "channelpublishedate":channel_Published_at,
+            "descriptionchannel":Description_channel,
+            "channelname":channel_name,
+            "thumbnail":Thumbnail,
+            "country":Country,
+            "instagram":medialinks[1],
+            "twitter":medialinks[2],
+            "facebook":medialinks[3],
+            "otherlinks":medialinks[4],
+            "videothumbnail":video_thumbnail
+        }
+        return render(request,"scrape/Moreinformation.html",context)
+    messages.error(request,"No Request Was made For More Information")
+    return render(request,"scrape/home.html")
+
+
+
         
 
 

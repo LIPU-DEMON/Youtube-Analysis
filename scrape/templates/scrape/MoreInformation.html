@@ -1,0 +1,162 @@
+{% extends 'scrape/main.html' %} {% block content %}
+{% comment %} <div>
+  <p>Published At: {{ published_at }}</p>
+  <p>Description: {{ description }}</p>
+  <p>Audio Language: {{ audiolang }}</p>
+  <p>Channel Published At: {{ channelpublishedate }}</p>
+  <p>Channel Description: {{ descriptionchannel }}</p>
+  <p>Channel Name: {{ channelname }}</p>
+  <p>Country: {{ country }}</p>
+  <p>Instagram: {{ instagram }}</p>
+  <p>Twitter: {{ twitter }}</p>
+  <p>Facebook: {{ facebook }}</p>
+  <p>Other Links: {{ otherlinks }}</p>
+  <p>Channel Image: <img src="{{ thumbnail }}" alt="Thumbnail" /></p>
+  <p>Thumbnail: <img src="{{ videothumbnail}}" alt="VideoThumbnail" /></p>
+</div> {% endcomment %}
+
+
+
+<center> <strong> <h1 style="font-family: math;
+    font-size: xx-large;
+}"> More Informations <h1> </strong> </center>
+
+<div class="row" style="width: 93rem;
+    margin-left: 16pt;
+    text-align: center;border: #726e6e solid;
+    border-radius: 8px;">
+  <div class="col-4" style="margin-left: -12px;">
+    <div id="list-example" class="list-group">
+
+      
+      
+      <a class="list-group-item list-group-item-action" href="#list-item-1">Channel Name</a>
+      <a class="list-group-item list-group-item-action" href="#list-item-2">Video Description</a>
+      <a class="list-group-item list-group-item-action" href="#list-item-3">Video Thumbnail</a>
+      <a class="list-group-item list-group-item-action" href="#list-item-4">Channel Image</a>
+      <a class="list-group-item list-group-item-action" href="#list-item-5">Twitter Link</a>
+      <a class="list-group-item list-group-item-action" href="#list-item-6">Instagram Link</a>
+      <a class="list-group-item list-group-item-action" href="#list-item-7">Facebook Link</a>
+      <a class="list-group-item list-group-item-action" href="#list-item-8">Channel Description</a>
+      
+
+      <a class="list-group-item list-group-item-action" href="#list-item-9">Published At</a>
+      <a class="list-group-item list-group-item-action" href="#list-item-10">Audio Language</a>
+      <a class="list-group-item list-group-item-action" href="#list-item-11">Channel Published Date</a>
+      <a class="list-group-item list-group-item-action" href="#list-item-12">Country</a>
+      
+      
+    </div>
+  </div>
+  <div class="col-8">
+    <div data-bs-spy="scroll" data-bs-target="list-example" data-bs-smooth-scroll="true" class="scrollspy-example" tabindex="0" style="word-break: break-word; max-height: 491px; overflow-y: auto;">
+      <h4 id="list-item-1">Channel Name</h4>
+      <p>{{channelname}}</p>
+      <h4 id="list-item-2">Video Description</h4>
+      <p>{{description}}</p>
+      <h4 id="list-item-3">Video Thumbnail</h4>
+      <p><img src="{{ videothumbnail }}" alt="videoThumbnail"></p>
+      <h4 id="list-item-4">Channel Image</h4>
+      <p><img src="{{ thumbnail }}" alt="Thumbnail"></p>
+      <h4 id="list-item-5">Twitter Link</h4>
+      {% if twitter == "Not Provided" %}
+         <p>Not Provided</p>
+      {% else %}
+         <p><a href="{{twitter}}">Twitter</a></p>
+      {% endif %}
+      <h4 id="list-item-6">Instagram Link</h4>
+      {% if instagram == "Not Provided" %}
+         <p>Not Provided</p>
+      {% else %}
+         <p><a href="{{instagram}}">Instagram</a></p>
+      {% endif %}
+      <h4 id="list-item-7">Facebook Link</h4>
+      {% if facebook == "Not Provided" %}
+         <p>Not Provided</p>
+      {% else %}
+         <p><a href="{{facebook}}">facebook</a></p>
+      {% endif %}
+      <h4 id="list-item-8">Channel Description</h4>
+      <p>{{descriptionchannel}}</p>
+      <h4 id="list-item-9">Published At</h4>
+      <p>{{published_at}}</p>
+      <h4 id="list-item-10">Audio Language</h4>
+      <p>{{audiolang}}</p>
+      <h4 id="list-item-11">Channel Published Date</h4>
+      <p>{{channelpublishedate}}</p>
+      <h4 id="list-item-12">Country</h4>
+      
+      <p>{{country}}</p>
+      
+      
+     
+    </div>
+  </div>
+</div> 
+
+{% comment %} <div class="row">
+  <div class="col-4">
+    <nav id="navbar-example3" class="h-100 flex-column align-items-stretch pe-4 border-end">
+      <nav class="nav nav-pills flex-column">
+        <a class="nav-link" href="#item-1">Channel Name</a>
+        <a class="nav-link" href="#item-2">Published At</a>
+        <a class="nav-link" href="#item-3">Channel Created</a>
+        <a class="nav-link" href="#item-4">Audio Language</a>
+        <a class="nav-link" href="#item-5">Channel Description</a>
+        <a class="nav-link" href="#item-6">Twitter Link</a>
+        <a class="nav-link" href="#item-7">Facebook Link</a>
+        <a class="nav-link" href="#item-8">Instagram Link</a>
+        <a class="nav-link" href="#item-9">Country</a>
+      </nav>
+    </nav>
+  </div>
+
+  <div class="col-8">
+    <div data-bs-spy="scroll" data-bs-target="navbar-example3" data-bs-smooth-scroll="true" class="scrollspy-example-2" tabindex="0" style="word-break: break-word; max-height: 600px; overflow-y: auto;">
+      <div id="item-1">
+        <h4>Channel Name</h4>
+        <p>{{channelname}}</p>
+      </div>
+      <div id="item-2">
+        <h4>Published At</h4>
+        <p>{{published_at}}</p>
+      </div>
+      <div id="item-3">
+        <h4>Channel Created</h4>
+        <p>{{channelpublishedate}}</p>
+      </div>
+      <div id="item-4">
+        <h4>Audio Language</h4>
+        <p>{{audiolang}}</p>
+      </div>
+      <div id="item-5">
+        <h4>Channel Description</h4>
+        <p>{{descriptionchannel}}</p>
+      </div>
+      <div id="item-6">
+        <h4>Twitter Link</h4>
+        <p>{{twitter}}</p>
+      </div>
+      <div id="item-7">
+        <h4>Facebook Link</h4>
+        <p>{{facebook}}</p>
+      </div>
+      <div id="item-8">
+        <h4>Instagram Link</h4>
+        <p>{{instagram}}</p>
+      </div>
+      <div id="item-9">
+        <h4>Country</h4>
+        <p>{{country}}</p>
+      </div>
+    </div>
+  </div>
+</div> {% endcomment %}
+
+
+
+
+
+
+
+{% endblock %}
