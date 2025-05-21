@@ -47,7 +47,7 @@ def store_post(request):
         return render(request,"scrape/home.html")
 
 
-
+# dashboard embedding --->
 def generateJWD_TOKEN(user):
     payload = {
         "user":{

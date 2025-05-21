@@ -11,6 +11,8 @@ urlpatterns = [
     path("accounts/logout/",LogoutView.as_view(next_page='users:login'),name='logout'),
     path("successlogin/",views.Sucesslogin,name='success'),
     path("successlogout/",views.Successlogout,name='successl'),
-    path('accounts/profile',views.profile,name='profile')
+    path('accounts/profile',views.profile,name='profile'),
+    path('accounts/ScrapedHistory',views.scrapeddata,name='scrapedata')
+    
   
 ]

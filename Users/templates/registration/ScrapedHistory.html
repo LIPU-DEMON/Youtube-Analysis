@@ -1,0 +1,50 @@
+{% extends "scrape/main.html"%}
+
+{% block content%}
+
+<center><strong><h3>Scraped Data<h3></strong></center>
+<table class="table" style="width: fit-content;
+    text-align: center;
+    margin-left: 90pt;
+    border: 2px solid black;">
+  <thead>
+    <tr class="table-dark">
+      <th scope='col'>Serial No</th>
+      <th scope="col">Title</th>
+      <th scope="col">Likes</th>
+      <th scope="col">Comments</th>
+      <th scope="col">Views</th>
+      <th scope="col">Subscribers</th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for d in data%}
+    <tr class="table-light">
+        <th scope='row'>{{d.id}}</th>
+        <th scope="row">{{d.title}}</th>
+        <td>{{d.Likes}}</td>
+        <td>{{d.views}}</td>
+        <td>{{d.subs}}</td>
+        <td>{{d.comments}}</td>
+        <td><form method='post' action="{%url 'users:scrapedata'%}">{%csrf_token%}<input type='hidden' name='id' value="{{d.id}}"><button type="submit" class="btn btn-outline-danger">Delete</button></form>
+            
+        
+        </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+
+  
+
+</table>
+{% endblock %}
+
+
+
+
+
+
+    
+
+  

@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.contrib.auth import logout,login
 from django.contrib.auth.decorators import login_required
 from scrape.models import store
+from DB.models import push
 # Create your views here.
 
 
@@ -40,3 +41,17 @@ def profile(request):
         }
         return render(request,"registration/profile.html",context)
     return render(request,"scrape/home.html")
+@login_required
+def scrapeddata(request):
+    if(request.method=='POST'):
+       if(request.POST.get('id')):
+           data_id = request.POST.get('id')
+           delete = push.objects.filter(user_id=request.user.id,id=data_id).delete()
+       data = push.objects.filter(user_id=request.user.id)
+       context ={
+           'data':data
+        }
+       return render(request,'registration/ScrapedHistory.html',context)
+    return render(request,'scrape/home.html')
+# def DeleteScrapedData(request):
+#     if()

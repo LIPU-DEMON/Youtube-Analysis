@@ -35,7 +35,7 @@
           {% endif %}
           <form action="{% url 'users:login' %}" method="post">
             {% csrf_token %} {{ form|crispy }}
-            <button type="submit">Login</button>
+            <button type="submit" class="btn btn-outline-success">Login</button>
           </form>
 
           <p>

@@ -25,7 +25,8 @@
         
         <div class="modal-body">
           <center><h2>Welcome {{ details.0.user.username }}</h2></center>
-          <center><form method='post' action="{% url 'DB:dashboard'%}">{% csrf_token %}<button type='submit'><h2>Show Dashboard</h2></button></form></center>
+          <center><form method='post' action="{% url 'DB:dashboard'%}">{% csrf_token %}<button type="submit" class="btn btn-outline-success">Dashboard</button></form></center>
+          <center><form method='post' action="{% url 'users:scrapedata' %}" style="margin-top: 4px;">{% csrf_token %}<button type="submit" class="btn btn-outline-dark">Scraped Data</button></form></center>
           <hr class="border border-primary border-3 opacity-75" />
           <center><h4>History</h4></center>
           <ul class="list-group">
